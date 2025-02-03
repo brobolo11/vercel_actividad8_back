@@ -37,7 +37,7 @@ app.get("/api/users/:id", async (req, res) => {
   }
 
   try {
-    const user = await coleccionUsuarios.findOne({ id: userId });
+    const user = await coleccion.findOne({ id: userId });
     if (user) {
       res.json(user);
     } else {
@@ -48,7 +48,6 @@ app.get("/api/users/:id", async (req, res) => {
     res.status(500).json({ error: "Error al obtener el usuario" });
   }
 });
-
 
 app.post('/api/users', async (req, res) => {
   const { id, nombre, apellido, tlf } = req.body;
