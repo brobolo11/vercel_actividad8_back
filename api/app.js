@@ -13,7 +13,13 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-const client = new MongoClient('mongodb+srv://bfanvei:Lolitofernandez10@cluster0.3swo1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+const client = new MongoClient('mongodb+srv://bfanvei:Lolitofernandez10@cluster0.3swo1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
+  keepAlive: true,
+});
+
 let coleccionUsuarios;
 
 async function conectarBBDD() {
