@@ -13,8 +13,8 @@ const app = express();
 const url = "mongodb+srv://bfanvei:Lolitofernandez10@cluster0.3swo1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const cliente = new MongoClient(url);
 cliente.connect();
-const db = cliente.db('despliegue_vercel_express');
-const coleccion = db.collection('users');
+const db = cliente.db('vercel_actividad8');
+const coleccion = db.collection('usuarios');
 
 app.use(morgan('dev'));
 app.use(helmet());
