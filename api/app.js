@@ -30,19 +30,25 @@ app.get("/api/users", async (req, res) =>{
   }
 });
 
-app.get("/api/users/:id", async (req, res) =>{
-  const userId = req.params.id;
+app.get("/api/users/:id", async (req, res) => {
+  const userId = parseInt(req.params.id, 10); // Convertir a número
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: "ID inválido" });
+  }
+
   try {
-    const user = await coleccion.findOne({ id: userId });
+    const user = await coleccionUsuarios.findOne({ id: userId });
     if (user) {
       res.json(user);
     } else {
       res.status(404).json({ error: "Usuario no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener el usuario' });
+    console.error("Error al obtener el usuario:", error);
+    res.status(500).json({ error: "Error al obtener el usuario" });
   }
 });
+
 
 app.post('/api/users', async (req, res) => {
   const { id, nombre, apellido, tlf } = req.body;
