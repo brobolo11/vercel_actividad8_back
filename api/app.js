@@ -56,10 +56,10 @@ app.post("/api/users", async (req, res) => {
       return res.status(400).json({ message: "Todos los campos son requeridos: nombre, apellido, tlf" });
     }
     
-    const lastUser = await coleccionUsuarios.find().sort({ id: -1 }).limit(1).toArray();
+    const lastUser = await coleccion.find().sort({ id: -1 }).limit(1).toArray();
     const newId = lastUser.length > 0 ? lastUser[0].id + 1 : 1;
     
-    const result = await coleccionUsuarios.insertOne({ id: newId, nombre, apellido, tlf });
+    const result = await coleccion.insertOne({ id: newId, nombre, apellido, tlf });
     res.status(201).json({ _id: result.insertedId, id: newId, nombre, apellido, tlf });
   } catch (error) {
     res.status(500).json({ message: "Error creando usuario" });
