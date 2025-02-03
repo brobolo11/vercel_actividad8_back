@@ -49,13 +49,20 @@ app.get("/api/users/:id", async (req, res) => {
   }
 });
 
-app.post('/api/users', async (req, res) => {
-  const { id, nombre, apellido, tlf } = req.body;
+app.post("/api/users", async (req, res) => {
   try {
-    await coleccion.insertOne({ id, nombre, apellido, tlf });
-    res.status(201).json({ message: 'Usuario añadido exitosamente.', user: { id, nombre, apellido, tlf } });
+    const { nombre, apellido, tlf } = req.body;
+    if (!nombre || !apellido || !tlf) {
+      return res.status(400).json({ message: "Todos los campos son requeridos: nombre, apellido, tlf" });
+    }
+    
+    const lastUser = await coleccionUsuarios.find().sort({ id: -1 }).limit(1).toArray();
+    const newId = lastUser.length > 0 ? lastUser[0].id + 1 : 1;
+    
+    const result = await coleccionUsuarios.insertOne({ id: newId, nombre, apellido, tlf });
+    res.status(201).json({ _id: result.insertedId, id: newId, nombre, apellido, tlf });
   } catch (error) {
-    res.status(500).json({ error: 'Error al añadir el usuario' });
+    res.status(500).json({ message: "Error creando usuario" });
   }
 });
 
